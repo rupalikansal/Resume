@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rupali Kansal — Data & ML</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0f1e3c;
+    --navy2: #1b3a6b;
+    --blue: #2563a8;
+    --accent: #3b9ae1;
+    --cream: #f8f5f0;
+    --warm: #efe8dc;
+    --text: #1c1c2e;
+    --muted: #6b7280;
+    --light: #c5d5e8;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(248,245,240,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(37,99,168,0.1);
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem; color: var(--navy);
+    letter-spacing: -0.02em;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.85rem; font-weight: 500; color: var(--muted);
+    text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--blue); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    gap: 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -20%; right: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(37,99,168,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem; color: var(--blue);
+    background: rgba(37,99,168,0.08);
+    padding: 0.4rem 1rem; border-radius: 999px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(37,99,168,0.2);
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    color: var(--navy); line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em {
+    font-style: italic; color: var(--blue);
+  }
+  .hero-desc {
+    font-size: 1.05rem; color: var(--muted);
+    line-height: 1.8; max-width: 480px;
+    margin-bottom: 2.5rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--navy); color: #fff;
+    padding: 0.85rem 2rem; border-radius: 6px;
+    text-decoration: none; font-size: 0.9rem; font-weight: 500;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--blue); transform: translateY(-2px); }
+  .btn-outline {
+    border: 1.5px solid var(--navy2); color: var(--navy);
+    padding: 0.85rem 2rem; border-radius: 6px;
+    text-decoration: none; font-size: 0.9rem; font-weight: 500;
+    transition: all 0.2s; display: inline-block;
+  }
+  .btn-outline:hover { background: var(--navy); color: #fff; transform: translateY(-2px); }
+
+  /* Hero right — stat cards */
+  .hero-right {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    animation: fadeUp 0.8s 0.3s both;
+  }
+  .stat-card {
+    background: #fff; border-radius: 12px;
+    padding: 1.5rem; border: 1px solid rgba(0,0,0,0.07);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(15,30,60,0.1); }
+  .stat-card.accent { background: var(--navy); color: #fff; }
+  .stat-card.accent .stat-label { color: var(--light); }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem; color: var(--navy); line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .stat-card.accent .stat-num { color: #fff; }
+  .stat-label { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
+  .stat-icon { font-size: 1.4rem; margin-bottom: 0.8rem; }
+
+  /* ── SECTION BASE ── */
+  section { padding: 6rem 4rem; }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; color: var(--blue);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    color: var(--navy); line-height: 1.1;
+    letter-spacing: -0.02em; margin-bottom: 3rem;
+  }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--warm); }
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-group {
+    background: #fff; border-radius: 12px; padding: 1.5rem;
+    border: 1px solid rgba(0,0,0,0.06);
+    transition: transform 0.2s;
+  }
+  .skill-group:hover { transform: translateY(-3px); }
+  .skill-group-title {
+    font-size: 0.75rem; font-weight: 500; color: var(--blue);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid rgba(37,99,168,0.12);
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag {
+    background: rgba(37,99,168,0.07); color: var(--navy2);
+    font-size: 0.8rem; padding: 0.3rem 0.75rem;
+    border-radius: 999px; font-weight: 400;
+    border: 1px solid rgba(37,99,168,0.15);
+  }
+
+  /* ── EXPERIENCE ── */
+  .exp-card {
+    background: #fff; border-radius: 14px; padding: 2rem 2.5rem;
+    border: 1px solid rgba(0,0,0,0.07);
+    border-left: 4px solid var(--blue);
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .exp-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(15,30,60,0.08); }
+  .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem; }
+  .exp-company { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--navy); }
+  .exp-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem; color: var(--muted);
+    background: var(--warm); padding: 0.3rem 0.8rem; border-radius: 999px;
+  }
+  .exp-role { color: var(--blue); font-size: 0.9rem; font-weight: 500; margin-bottom: 1rem; }
+  .exp-bullets { list-style: none; }
+  .exp-bullets li {
+    font-size: 0.92rem; color: #374151; line-height: 1.7;
+    padding: 0.3rem 0 0.3rem 1.2rem;
+    position: relative;
+  }
+  .exp-bullets li::before {
+    content: '▸'; position: absolute; left: 0;
+    color: var(--accent); font-size: 0.75rem; top: 0.45rem;
+  }
+
+  /* ── PROJECTS ── */
+  #projects { background: var(--navy); }
+  #projects .section-title { color: #fff; }
+  #projects .section-label { color: var(--accent); }
+  .projects-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: rgba(255,255,255,0.05); border-radius: 14px; padding: 2rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: background 0.2s, transform 0.2s;
+    text-decoration: none; display: block;
+  }
+  .project-card:hover { background: rgba(255,255,255,0.09); transform: translateY(-4px); }
+  .project-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+  .project-tech {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; color: var(--accent);
+    background: rgba(59,154,225,0.12); padding: 0.3rem 0.7rem; border-radius: 999px;
+  }
+  .project-arrow { color: rgba(255,255,255,0.3); font-size: 1.2rem; transition: color 0.2s; }
+  .project-card:hover .project-arrow { color: var(--accent); }
+  .project-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem; color: #fff; margin-bottom: 0.8rem;
+  }
+  .project-desc { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 1.2rem; }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .project-stack span {
+    font-size: 0.72rem; color: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.15); padding: 0.2rem 0.6rem; border-radius: 4px;
+  }
+
+  /* ── EDUCATION ── */
+  .edu-grid { display: grid; gap: 1rem; }
+  .edu-card {
+    background: #fff; border-radius: 12px; padding: 1.5rem 2rem;
+    border: 1px solid rgba(0,0,0,0.07);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+    transition: transform 0.2s;
+  }
+  .edu-card:hover { transform: translateX(6px); }
+  .edu-deg { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--navy); }
+  .edu-inst { font-size: 0.85rem; color: var(--muted); margin-top: 0.25rem; }
+  .edu-badge {
+    background: rgba(37,99,168,0.08); color: var(--blue);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem; padding: 0.4rem 1rem; border-radius: 999px;
+    border: 1px solid rgba(37,99,168,0.2); white-space: nowrap;
+  }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--warm); text-align: center; }
+  .contact-inner { max-width: 560px; margin: 0 auto; }
+  .contact-inner p { font-size: 1.05rem; color: var(--muted); line-height: 1.8; margin-bottom: 2.5rem; }
+  .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+  .contact-link {
+    display: flex; align-items: center; gap: 0.5rem;
+    background: #fff; border: 1px solid rgba(0,0,0,0.1);
+    padding: 0.75rem 1.5rem; border-radius: 8px;
+    text-decoration: none; font-size: 0.88rem; font-weight: 500; color: var(--navy);
+    transition: all 0.2s;
+  }
+  .contact-link:hover { background: var(--navy); color: #fff; transform: translateY(-2px); }
+  .contact-link span { font-size: 1rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy); color: rgba(255,255,255,0.4);
+    text-align: center; padding: 2rem;
+    font-size: 0.8rem;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-left { animation: fadeUp 0.7s 0.1s both; }
+  .hero-right { animation: fadeUp 0.7s 0.3s both; }
+
+  .reveal {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
+    .hero-right { grid-template-columns: 1fr 1fr; }
+    section { padding: 4rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">RK</div>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Open to opportunities</div>
+    <h1>Rupali<br><em>Kansal</em></h1>
+    <p class="hero-desc">
+      Computer Science graduate passionate about turning data into decisions.
+      I build ML pipelines, data dashboards, and intelligent systems that solve real problems.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stat-card accent">
+      <div class="stat-icon">🎓</div>
+      <div class="stat-num">8.24</div>
+      <div class="stat-label">CGPA — B.Tech CSE</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🔬</div>
+      <div class="stat-num">91%</div>
+      <div class="stat-label">Image Classification Accuracy</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📊</div>
+      <div class="stat-num">3+</div>
+      <div class="stat-label">Projects Delivered</div>
+    </div>
+    <div class="stat-card accent">
+      <div class="stat-icon">⚡</div>
+      <div class="stat-num">5mo</div>
+      <div class="stat-label">ML Internship @ CSIR</div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label reveal">What I work with</div>
+  <h2 class="section-title reveal">Technical Skills</h2>
+  <div class="skills-grid">
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Languages</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">Java</span>
+        <span class="skill-tag">SQL</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Libraries & Frameworks</div>
+      <div class="skill-tags">
+        <span class="skill-tag">NumPy</span>
+        <span class="skill-tag">Pandas</span>
+        <span class="skill-tag">Scikit-learn</span>
+        <span class="skill-tag">OpenCV</span>
+        <span class="skill-tag">TensorFlow</span>
+        <span class="skill-tag">Keras</span>
+        <span class="skill-tag">Matplotlib</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Tools & Platforms</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Power BI</span>
+        <span class="skill-tag">MS Excel</span>
+        <span class="skill-tag">DAX</span>
+        <span class="skill-tag">MySQL</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">GitHub</span>
+        <span class="skill-tag">Jupyter</span>
+        <span class="skill-tag">Kaggle</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Domains</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Machine Learning</span>
+        <span class="skill-tag">Deep Learning</span>
+        <span class="skill-tag">EDA</span>
+        <span class="skill-tag">Feature Engineering</span>
+        <span class="skill-tag">Data Cleaning</span>
+        <span class="skill-tag">Image Processing</span>
+        <span class="skill-tag">NLP</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label reveal">Where I've worked</div>
+  <h2 class="section-title reveal">Experience</h2>
+  <div class="exp-card reveal">
+    <div class="exp-header">
+      <div>
+        <div class="exp-company">CSIR-CMERI, Ludhiana</div>
+        <div class="exp-role">Machine Learning Intern</div>
+      </div>
+      <div class="exp-date">Jan 2024 – May 2024</div>
+    </div>
+    <ul class="exp-bullets">
+      <li>Applied supervised learning algorithms (linear regression, logistic regression, decision trees) to analyse crop quality patterns in post-harvesting technology, improving model prediction accuracy by ~15%.</li>
+      <li>Built and evaluated an image classification pipeline using GLCM feature extraction and Scikit-learn classifiers; achieved 91% accuracy on a custom dataset of 500+ images.</li>
+      <li>Performed data cleaning, EDA, and feature engineering on raw agricultural datasets sourced via Kaggle and CSIR repositories using Python and Pandas, reducing noise and improving model performance.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label reveal">What I've built</div>
+  <h2 class="section-title reveal">Projects</h2>
+  <div class="projects-grid">
+    <a class="project-card reveal" href="https://rupalikansal.github.io/coffee-shop-sales-powerbi/" target="_blank">
+      <div class="project-card-top">
+        <span class="project-tech">Power BI · DAX</span>
+        <span class="project-arrow">↗</span>
+      </div>
+      <div class="project-name">Coffee Shop Sales Dashboard</div>
+      <div class="project-desc">Interactive Power BI dashboard tracking sales KPIs — total revenue, transactions by hour/weekday/month, and product category performance with dynamic store-location slicers.</div>
+      <div class="project-stack">
+        <span>Power BI</span><span>DAX</span><span>Excel</span><span>EDA</span>
+      </div>
+    </a>
+    <div class="project-card reveal">
+      <div class="project-card-top">
+        <span class="project-tech">Python · NLP</span>
+        <span class="project-arrow">✦</span>
+      </div>
+      <div class="project-name">Digital Clinic – AI Symptom Checker</div>
+      <div class="project-desc">Symptom-to-specialist matching system that maps patient inputs to medical categories using rule-based NLP logic, with MySQL integration for user and consultation management.</div>
+      <div class="project-stack">
+        <span>Python</span><span>MySQL</span><span>NLP</span><span>Backend</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label reveal">Academic background</div>
+  <h2 class="section-title reveal">Education</h2>
+  <div class="edu-grid">
+    <div class="edu-card reveal">
+      <div>
+        <div class="edu-deg">B.Tech – Computer Science & Engineering</div>
+        <div class="edu-inst">Guru Nanak Dev University · 2020–2024</div>
+      </div>
+      <div class="edu-badge">CGPA: 8.24 / 10</div>
+    </div>
+    <div class="edu-card reveal">
+      <div>
+        <div class="edu-deg">Senior Secondary — Non-Medical</div>
+        <div class="edu-inst">2020</div>
+      </div>
+      <div class="edu-badge">88%</div>
+    </div>
+    <div class="edu-card reveal">
+      <div>
+        <div class="edu-deg">Secondary — Class 10</div>
+        <div class="edu-inst">2018</div>
+      </div>
+      <div class="edu-badge">88%</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-label reveal">Say hello</div>
+    <h2 class="section-title reveal">Get in Touch</h2>
+    <p class="reveal">I'm currently open to data science, machine learning, and analytics roles. Feel free to reach out — I'd love to connect!</p>
+    <div class="contact-links reveal">
+      <a class="contact-link" href="mailto:rupalikansal0411@gmail.com">
+        <span>✉</span> Email Me
+      </a>
+      <a class="contact-link" href="https://linkedin.com/in/rupalikansal" target="_blank">
+        <span>in</span> LinkedIn
+      </a>
+      <a class="contact-link" href="https://github.com/rupalikansal" target="_blank">
+        <span>⌥</span> GitHub
+      </a>
+      <a class="contact-link" href="https://rupalikansal.github.io/portfolio/" target="_blank">
+        <span>◈</span> Portfolio
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2024 Rupali Kansal · Ferozepur Cantt, Punjab</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
